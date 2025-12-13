@@ -1,5 +1,18 @@
+"""
+Demo Script - Day 1: Document Processing
+==========================================
+This script demonstrates loading and chunking documents.
 
+Run with: python demo_day1.py
+"""
+
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+from pathlib import Path
 from core.document_processor import DocumentProcessor
+
+
 def main():
     print("\n" + "=" * 70)
     print("🎓 DAY 1 DEMO: Document Processing & Chunking")
@@ -31,32 +44,54 @@ def main():
     Python has a comprehensive standard library, often described as "batteries included".
     This means developers can find modules for most tasks without external dependencies.
     """
-    with open("sample_document.txt","w") as f:
+    
+    with open("sample_document.txt", "w") as f:
         f.write(sample_content)
     
-    print("create 'sample_document.txt")
+    print("✅ Created 'sample_document.txt'")
     
-    print("Initialize document processor")
-    processor=DocumentProcessor(chunk_size=300,chunk_overlap=50)
-    print("Process configured (chunk_size=300,chunk_overlap=50)")
-    print("\n... Processing document")
-    chunks=processor.process("sample_document.txt")
-    print(f"document split into {len(chunks)} chunks")
+    # Initialize processor
+    print("\n📄 Step 2: Initializing Document Processor...")
+    processor = DocumentProcessor(chunk_size=300, chunk_overlap=50)
+    print("✅ Processor configured (chunk_size=300, overlap=50)")
     
+    # Process document
+    print("\n⚙️  Step 3: Processing document...")
+    chunks = processor.process("sample_document.txt")
+    print(f"✅ Document split into {len(chunks)} chunks")
     
-    print("\n Displaying chunks...")
-    for i,chunk in enumerate(chunks,1):
-        print(f"\n-- chunk {i} ")
-        print(f"Content {chunk.page_content[:150]}...")
-        print(f"Length :{len(chunk.page_content)}")
-        print(f"Metadata:{chunk.metadata}")
+    # Display chunks
+    print("\n📋 Step 4: Displaying chunks...")
+    for i, chunk in enumerate(chunks, 1):
+        print(f"\n--- CHUNK {i} ---")
+        print(f"Content: {chunk.page_content[:150]}...")
+        print(f"Length: {len(chunk.page_content)} chars")
+        print(f"Metadata: {chunk.metadata}")
+    
+    # Statistics
+    print("\n" + "=" * 70)
+    print("📊 STATISTICS")
+    print("=" * 70)
+    total_chars = sum(len(chunk.page_content) for chunk in chunks)
+    print(f"Total chunks: {len(chunks)}")
+    print(f"Total characters: {total_chars}")
+    print(f"Avg chunk size: {total_chars // len(chunks)} chars")
+    print(f"Original content size: {len(sample_content)} chars")
+    
+    # Cleanup
+    os.remove("sample_document.txt")
+    print("\n✅ Cleaned up temporary file")
+    
+    print("\n" + "=" * 70)
+    print("🎉 DAY 1 DEMO COMPLETE!")
+    print("=" * 70)
+    print("\nKey Takeaways:")
+    print("✓ Documents are loaded from various file types")
+    print("✓ Documents are split into meaningful chunks")
+    print("✓ Chunks preserve context through overlap")
+    print("✓ Metadata tracks document sources")
+    print("=" * 70 + "\n")
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
-    
-    
-    
-    
-    
-    
