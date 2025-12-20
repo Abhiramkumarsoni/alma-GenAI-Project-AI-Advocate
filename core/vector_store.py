@@ -184,7 +184,7 @@ class VectorStoreManager:
             search_type="similarity",
             search_kwargs={"k": k}
         )
-    
+  
     def clear(self) -> None:
         """Clear the vector store from memory."""
         self._vector_store = None
